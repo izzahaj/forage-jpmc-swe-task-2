@@ -34,23 +34,6 @@ class Graph extends Component<IProps, {}> {
     // Get element to attach the table from the DOM.
     const elem = document.getElementsByTagName('perspective-viewer')[0] as unknown as PerspectiveViewerElement;
 
-    // visualise data with a continuous line graph
-    elem.setAttribute('view', 'y_line');
-    // distinguish stock ABC from DEF
-    elem.setAttribute('column-pivots', '["stock"]');
-    // for x-axis: maps each datapount based on its timestamp
-    elem.setAttribute('row-pivots', '["timestamp"]');
-    // focus on top_ask_price of a stock on y-axis
-    elem.setAttribute('columns', '["top_ask_price"]');
-    // consolidates duplicated data into a single data point
-    // datapoints are unique if it has unqique stock name and timestamp)
-    // average out top_bid_prices and the top_ask_prices of these ‘similar’ data points
-    elem.setAttribute('aggregates', `
-      {"stock": "distinct count",
-      "top_ask_price": "avg",
-      "top_bid_price": "avg",
-      "timestamp": "distinct count"}`);
-
     const schema = {
       stock: 'string',
       top_ask_price: 'float',
@@ -66,6 +49,23 @@ class Graph extends Component<IProps, {}> {
 
       // Add more Perspective configurations here.
       elem.load(this.table);
+      // visualise data with a continuous line graph
+      elem.setAttribute('view', 'y_line');
+      // distinguish stock ABC from DEF
+      elem.setAttribute('column-pivots', '["stock"]');
+      // for x-axis: maps each datapount based on its timestamp
+      elem.setAttribute('row-pivots', '["timestamp"]');
+      // focus on top_ask_price of a stock on y-axis
+      elem.setAttribute('columns', '["top_ask_price"]');
+      // consolidates duplicated data into a single data point
+      // datapoints are unique if it has unique stock name and timestamp)
+      // average out top_bid_prices and the top_ask_prices of these ‘similar’ data points
+      elem.setAttribute('aggregates', JSON.stringify(
+        {"stock": "distinct count",
+        "top_ask_price": "avg",
+        "top_bid_price": "avg",
+        "timestamp": "distinct count"}
+      ));
     }
   }
 
