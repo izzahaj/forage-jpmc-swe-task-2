@@ -60,12 +60,12 @@ class Graph extends Component<IProps, {}> {
       // consolidates duplicated data into a single data point
       // datapoints are unique if it has unique stock name and timestamp)
       // average out top_bid_prices and the top_ask_prices of these ‘similar’ data points
-      elem.setAttribute('aggregates', JSON.stringify(
-        {"stock": "distinct count",
-        "top_ask_price": "avg",
-        "top_bid_price": "avg",
-        "timestamp": "distinct count"}
-      ));
+      elem.setAttribute('aggregates', JSON.stringify({
+        stock: "distinct count",
+        top_ask_price: "avg",
+        top_bid_price: "avg",
+        timestamp: "distinct count"
+      }));
     }
   }
 
